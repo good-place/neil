@@ -10,6 +10,7 @@ office who calculates the life score.
 
 Legend:
 Default field type is string.
+\# - reference
 {} - table. If there are nested fields, it is embeded only in the parent document.
 [] - array
 
@@ -25,16 +26,15 @@ Default field type is string.
   - note
 - project
   - name
-  - {client}
-  - note
-- work interval
-  - start
-  - end
+  - #{client}
   - note
 - task
   - name
-  - {project}
+  - #{project}
   - [work interval]
+    - start
+    - end
+    - note
   - note
 
 ## Architecture
