@@ -16,6 +16,7 @@ Default field type is string.
 
 - client
   - name
+  - abbrev
   - {invoice info}
     - street
     - city

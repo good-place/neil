@@ -4,9 +4,9 @@
 
 (defn- ensure-db
   [name]
-  (match (protect (buffet/create name @{:to-index [:name :client :project]}))
-    [true db] (:close db)
-    [false _] (eprint "DB already created")))
+  (match (protect (buffet/create name @{:to-index [:type :abbrev :name :client :project]}))
+    [true db] (do (print "Creating DB") (:close db))
+    [false _] (print "DB already created")))
 
 (defn- start-reception
   [name]
@@ -21,13 +21,33 @@
   "Starts RPC server"
   [host port reception]
   (def visitor (:visit reception "neil"))
-  (def funcs {:client/add (fn [self name]
-                            (:save visitor "scores" {:name name}))
-              :client/list (fn [self] (:retrieve visitor "scores"))})
+  (defn save [what] (:save visitor "scores" what))
+  (defn retrieve [which] (:retrieve visitor "scores" which))
+
+  (def funcs
+    {:client/add (fn [self client]
+                   (-> client
+                       (merge {:type "client"})
+                       freeze
+                       save))
+     :client/list (fn [self] (retrieve {:type "client"}))
+     :project/add (fn [self project]
+                    (-> project
+                        (merge {:type "project"})
+                        freeze
+                        save))
+     :project/list (fn [self] (retrieve {:type "project"}))
+     :client/projects (fn [self client] (retrieve {:type :project :client client}))
+     :task/add (fn [self task]
+                 (-> task
+                     (merge {:type "task"})
+                     freeze
+                     save))
+     :task/list (fn [self] (retrieve {:type "task"}))})
+
   (rpc/server funcs host port))
 
 (defn main [_]
-
   (->> "scores"
        store
        (server "localhost" 6660)))
