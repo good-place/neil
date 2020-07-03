@@ -24,25 +24,24 @@
   (defn save [what] (:save visitor "scores" what))
   (defn retrieve [which] (:retrieve visitor "scores" which))
 
+  (defn stamp []
+    (def now (os/time))
+    {:timestamp now})
+
+  (defn populate [what]
+    (def now (os/time))
+    (merge (stamp)
+           {:type (string what)
+            :created now
+            :state "active"}))
+
   (def funcs
-    {:client/add (fn [self client]
-                   (-> client
-                       (merge {:type "client"})
-                       freeze
-                       save))
+    {:client/add (fn [self client] (-> client (merge (populate :client)) freeze save))
      :client/list (fn [self] (retrieve {:type "client"}))
-     :project/add (fn [self project]
-                    (-> project
-                        (merge {:type "project"})
-                        freeze
-                        save))
+     :project/add (fn [self project] (-> project (merge (populate :project) freeze save)))
      :project/list (fn [self] (retrieve {:type "project"}))
      :client/projects (fn [self client] (retrieve {:type :project :client client}))
-     :task/add (fn [self task]
-                 (-> task
-                     (merge {:type "task"})
-                     freeze
-                     save))
+     :task/add (fn [self task] (-> task (merge (populate :task)) freeze save))
      :task/list (fn [self] (retrieve {:type "task"}))})
 
   (rpc/server funcs host port))

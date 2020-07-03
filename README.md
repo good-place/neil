@@ -13,8 +13,9 @@ Legend:
 
 Default field type is string.
 - \# - reference
-- {} - table. If there are nested fields, it is embeded only in the parent document.
-- [] - array
+- {} - struct. If there are nested fields, it is embeded only in the parent document.
+- [] - tuple
+- :time - number, seconds since UNIX epoch
 
 ---
 
@@ -29,18 +30,27 @@ Default field type is string.
     - vat-id
     - legal
   - note
+  - state
+  - created :time
+  - timestamp :time
 - project
   - name
   - #{client}
   - note
+  - state
+  - created :time
+  - timestamp :time
 - task
   - name
   - #{project}
-  - [work interval]
+  - [{work interval}]
     - start
     - end
     - note
   - note
+  - state
+  - created :time
+  - timestamp :time
 
 ## Architecture
 
