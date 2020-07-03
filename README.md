@@ -8,11 +8,15 @@ office who calculates the life score.
 
 ## Domain
 
+---
 Legend:
+
 Default field type is string.
-\# - reference
-{} - table. If there are nested fields, it is embeded only in the parent document.
-[] - array
+- \# - reference
+- {} - table. If there are nested fields, it is embeded only in the parent document.
+- [] - array
+
+---
 
 - client
   - name
