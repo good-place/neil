@@ -38,9 +38,9 @@
   (def funcs
     {:client/add (fn [self client] (-> client (merge (populate :client)) freeze save))
      :client/list (fn [self] (retrieve {:type "client"}))
-     :project/add (fn [self project] (-> project (merge (populate :project) freeze save)))
+     :project/add (fn [self project] (-> project (merge (populate :project)) freeze save))
      :project/list (fn [self] (retrieve {:type "project"}))
-     :client/projects (fn [self client] (retrieve {:type :project :client client}))
+     :client/projects (fn [self client] (retrieve {:type "project" :client client}))
      :task/add (fn [self task] (-> task (merge (populate :task)) freeze save))
      :task/list (fn [self] (retrieve {:type "task"}))})
 
