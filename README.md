@@ -8,6 +8,7 @@ office who calculates the life score.
 
 ## Domain
 
+
 ---
 Legend:
 
@@ -15,7 +16,7 @@ Default field type is string.
 - \# - reference
 - {} - struct. If there are nested fields, it is embeded only in the parent document.
 - [] - tuple
-- :time - number, seconds since UNIX epoch
+- :ts - timestamp. All the ts are amount of seconds since UNIX epoch
 
 ---
 
@@ -49,8 +50,8 @@ Default field type is string.
     - note
   - note
   - state
-  - created :time
-  - timestamp :time
+  - created :ts
+  - timestamp :ts
 
 ## Architecture
 
