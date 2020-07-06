@@ -17,4 +17,5 @@
          (map |(string/join [(first $) (get-in $ [1 :name])] " - "))
          (jff/choose (string "project [" client "]: "))
          (peg/match '(<- (some :d)))
-         first)))
+         first))
+  (print project))

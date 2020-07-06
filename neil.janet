@@ -25,13 +25,12 @@
   (defn save [what] (:save visitor "scores" what))
   (defn retrieve [which] (:retrieve visitor "scores" which))
 
-  (defn stamp []
-    (def now (os/time))
+  (defn stamp [now]
     {:timestamp now})
 
   (defn populate [what]
     (def now (os/time))
-    (merge (stamp)
+    (merge (stamp now)
            {:type (string what)
             :created now
             :state "active"}))
