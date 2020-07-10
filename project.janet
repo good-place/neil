@@ -12,8 +12,9 @@
 
 (phony "neil" [] (os/execute ["janet" "neil.janet"] :p))
 
-(import jhydro :as jh)
 
-(phony "genpsk" []
-       (with-dyns [:out (file/open "psk.key" :w)]
-         (print (jh/random/buf 32))))
+(post-deps
+  (import jhydro :as jh)
+  (phony "genpsk" []
+         (with-dyns [:out (file/open "psk.key" :w)]
+           (print (jh/random/buf 32)))))
