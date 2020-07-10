@@ -12,7 +12,7 @@
   ((kw-suf what :list) c))
 
 (defn add
-  "Adds data to resource what "
+  "Adds data to resource what"
   [what data] ((kw-suf what :add) c data))
 
 (defn nest-list

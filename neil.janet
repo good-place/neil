@@ -5,7 +5,7 @@
 
 (defn- ensure-db
   [name]
-  (match (protect (buffet/create name @{:to-index [:type :abbrev :name :client :project]}))
+  (match (protect (buffet/create name @{:to-index [:type :abbrev :name :client :project :state]}))
     [true db] (do (print "Creating DB") (:close db))
     [false _] (print "DB already created")))
 
@@ -20,7 +20,7 @@
 
 (defn server
   "Starts RPC server"
-  [host port reception]
+  [reception]
   (def visitor (:visit reception "neil"))
   (defn save [what] (:save visitor "scores" what))
   (defn retrieve [which] (:retrieve visitor "scores" which))
@@ -28,25 +28,28 @@
   (defn stamp [now]
     {:timestamp now})
 
-  (defn populate [what]
+  (defn populate [what data]
     (def now (os/time))
-    (merge (stamp now)
-           {:type (string what)
-            :created now
-            :state "active"}))
+    (merge
+      {:type (string what)
+       :created now
+       :state "active"}
+      data
+      (stamp now)))
 
   (def funcs
-    {:client/add (fn [self client] (-> client (merge (populate :client)) freeze save))
-     :client/list (fn [self] (retrieve {:type "client"}))
-     :project/add (fn [self project] (-> project (merge (populate :project)) freeze save))
-     :project/list (fn [self] (retrieve {:type "project"}))
-     :client/projects (fn [self client] (retrieve {:client client}))
-     :task/add (fn [self task] (-> task (merge (populate :task)) freeze save))
-     :task/list (fn [self] (retrieve {:type "task"}))})
+    {:client/add (fn [_ client] (-> (populate :client client) freeze save))
+     :client/list (fn [_] (retrieve {:type "client"}))
+     :client/projects (fn [_ client] (retrieve {:client client}))
+     :project/add (fn [_ project] (-> (populate :project project) freeze save))
+     :project/list (fn [_] (retrieve {:type "project"}))
+     :project/tasks (fn [_ project] (retrieve {:project project}))
+     :task/add (fn [_ task] (-> (populate :task task) freeze save))
+     :task/list (fn [_] (retrieve {:type "task"}))})
 
-  (rpc/server funcs host port))
+  (rpc/server funcs "localhost" 6660))
 
 (defn main [_]
   (->> "scores"
        store
-       (server "localhost" 6660)))
+       (server)))

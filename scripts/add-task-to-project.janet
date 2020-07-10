@@ -1,4 +1,4 @@
-(import neil/tell :prefix "")
+(import ../neil/tell :prefix "")
 (import jff)
 
 (defn main
@@ -18,4 +18,6 @@
          (jff/choose (string "project [" client "]: "))
          (peg/match '(<- (some :d)))
          first))
-  (print project))
+  (add :task {:project project
+              :client client
+              :name (string/trim (getline))}))
