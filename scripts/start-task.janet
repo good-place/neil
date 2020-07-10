@@ -4,7 +4,9 @@
 (defn main
   "Program main entry"
   [_]
-  (->> (list :task {:active true})
-       first
-       (map |(string/join [(first $) (get-in $ [1 :name])] " - "))
-       (jff/choose "task: : ")))
+  (def task
+    (->> (:task/active c)
+         first
+         (map |(string/join [(first $) (get-in $ [1 :name])] " - "))
+         (jff/choose "task: : ")))
+  (:))

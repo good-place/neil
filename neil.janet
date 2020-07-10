@@ -45,8 +45,10 @@
      :project/add (fn [_ project] (-> (populate :project project) freeze save))
      :project/list (fn [_] (retrieve {:type "project"}))
      :project/tasks (fn [_ project] (retrieve {:project project}))
+     :task (fn [_ id] (:load visitor id))
      :task/add (fn [_ task] (-> (populate :task task) freeze save))
-     :task/list (fn [_] (retrieve {:type "task"}))})
+     :task/list (fn [_] (retrieve {:type "task"}))
+     :task/active (fn [_] (retrieve {:state "active"}))})
 
   (hr/server funcs "localhost" 6660))
 
