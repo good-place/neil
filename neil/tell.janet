@@ -1,6 +1,6 @@
-(import spork/rpc)
+(import hydrpc :as hr)
 
-(def c (rpc/client "localhost" 6660 "neil-tell"))
+(def c (hr/client "localhost" 6660 "neil-tell"))
 
 (defn- kw-suf
   [what cmd]

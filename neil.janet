@@ -1,7 +1,8 @@
-(import spork/rpc)
 (import mansion/buffet)
 (import mansion/reception)
 (import mansion/utils)
+
+(import hydrpc :as hr)
 
 (defn- ensure-db
   [name]
@@ -47,7 +48,7 @@
      :task/add (fn [_ task] (-> (populate :task task) freeze save))
      :task/list (fn [_] (retrieve {:type "task"}))})
 
-  (rpc/server funcs "localhost" 6660))
+  (hr/server funcs "localhost" 6660))
 
 (defn main [_]
   (->> "scores"
