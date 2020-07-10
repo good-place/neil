@@ -24,6 +24,8 @@
   "Default port to run the net repl."
   "9366")
 
+(def psk (string/trimr (slurp "psk.key")))
+
 # RPC Protocol
 #
 # 1. server <- {user specified name of client} <- client
@@ -31,9 +33,6 @@
 # 3. server <- {marshalled function call: [fnname args]} <- client
 # 4. server -> {result of unmarshalled call: [status result]} -> client
 # 5. go back to 3.
-
-(def psk (string/trimr (slurp "psk")))
-
 
 (defn server
   "Create an RPC server. The default host is \"127.0.0.1\" and the
