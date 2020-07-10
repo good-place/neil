@@ -1,5 +1,7 @@
 (import hydrpc :as hr)
 
+(defn get-strip [s] (string/trim (getline s)))
+
 (def c (hr/client "localhost" 6660 "neil-tell"))
 
 (defn- kw-suf

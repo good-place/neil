@@ -25,8 +25,10 @@
   (def visitor (:visit reception "neil"))
   (defn save [what] (:save visitor "scores" what))
   (defn retrieve [which] (:retrieve visitor "scores" which))
+  (defn load [id] (:load visitor "scores" id))
 
-  (defn stamp [now]
+  (defn stamp [&opt now]
+    (default now (os/time))
     {:timestamp now})
 
   (defn populate [what data]
@@ -45,10 +47,34 @@
      :project/add (fn [_ project] (-> (populate :project project) freeze save))
      :project/list (fn [_] (retrieve {:type "project"}))
      :project/tasks (fn [_ project] (retrieve {:project project}))
-     :task (fn [_ id] (:load visitor id))
+     :task (fn [_ id] (:load visitor "scores" id))
      :task/add (fn [_ task] (-> (populate :task task) freeze save))
      :task/list (fn [_] (retrieve {:type "task"}))
-     :task/active (fn [_] (retrieve {:state "active"}))})
+     :task/active (fn [_] (utils/intersect (retrieve {:type "task" :state "active"})))
+     :task/running (fn [_] (retrieve {:state "running"}))
+     :task/start (fn [_ id]
+                   (def task (table ;(kvs (load id))))
+                   (if-let [wi (task :work-intervals)]
+                     (let [wi (array ;wi)]
+                       (put task :work-intervals
+                            (-> wi
+                                (array/concat @[{:start (os/time)}])
+                                freeze)))
+                     (put task :work-intervals [{:start (os/time)}]))
+                   (save [id (-> task
+                                 (merge (stamp) {:state "running"})
+                                 freeze)]))
+     :task/stop (fn [_ note]
+                  (def [[[id task]]] (retrieve {:state "running"}))
+                  (def iw (array ;(task :work-intervals)))
+                  (def running (array/pop iw))
+                  (array/push iw
+                              (merge running {:note note
+                                              :end (os/time)}))
+                  (save [id (-> task
+                                (merge (stamp) {:state "active"
+                                                :work-intervals iw})
+                                freeze)]))})
 
   (hr/server funcs "localhost" 6660))
 

@@ -20,4 +20,4 @@
          first))
   (add :task {:project project
               :client client
-              :name (string/trim (getline))}))
+              :name (get-strip "task:")}))

@@ -4,9 +4,12 @@
 (defn main
   "Program main entry"
   [_]
-  (def task
+
+  (if (empty? (first (:task/running c)))
     (->> (:task/active c)
-         first
          (map |(string/join [(first $) (get-in $ [1 :name])] " - "))
-         (jff/choose "task: : ")))
-  (:))
+         (jff/choose "task: ")
+         (peg/match '(<- (some :d)))
+         first
+         (:task/start c))
+    (print "You have task already running")))
