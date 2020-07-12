@@ -19,5 +19,4 @@
          (peg/match '(<- (some :d)))
          first))
   (add :task {:project project
-              :client client
               :name (get-strip "task:")}))
