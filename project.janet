@@ -4,7 +4,8 @@
   :dependencies ["https://github.com/janet-lang/spork.git"
                  "https://github.com/pepe/jff.git"
                  "https://github.com/good-place/mansion.git"
-                 "https://github.com/janet-lang/jhydro.git"])
+                 "https://github.com/janet-lang/jhydro.git"
+                 "https://github.com/bakpakin/janet-miniz.git"])
 
 (declare-executable :name "neil" :entry "neil.janet" :install true)
 

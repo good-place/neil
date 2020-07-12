@@ -1,9 +1,11 @@
 (import jhydro :as jh)
+(import miniz :as z)
 ###
-### rpc.janet
+### hydrpc.janet
 ###
-### Simple RPC server and client tailored to Janet.
+### Crypto RPC server and client tailored to Janet.
 ###
+### Blatantly stolen from janet-lang/spork/rpc
 
 ### Limitations:
 ###
@@ -25,6 +27,20 @@
   "9366")
 
 (def psk (string/trimr (slurp "psk.key")))
+
+(defn encode [msg-id session-pair]
+  (fn encode [msg]
+    (-> msg
+        marshal
+        z/compress
+        (jh/secretbox/encrypt msg-id ctx (session-pair :tx)))))
+
+(defn decode [msg-id session-pair]
+  (fn decode [msg]
+    (-> msg
+        (jh/secretbox/decrypt msg-id ctx (session-pair :rx))
+        z/decompress
+        unmarshal)))
 
 # RPC Protocol
 #
@@ -61,8 +77,8 @@
       (defer (:close stream)
         (def session-pair (handshake stream))
         (var msg-id 0)
-        (def recv (make-recv stream |(unmarshal (jh/secretbox/decrypt $ msg-id ctx (session-pair :rx)))))
-        (def send (make-send stream |(jh/secretbox/encrypt (marshal $) msg-id ctx (session-pair :tx))))
+        (def recv (make-recv stream (decode msg-id session-pair)))
+        (def send (make-send stream (encode msg-id session-pair)))
         (send keys-msg)
         (while (def msg (recv))
           (++ msg-id)
@@ -101,8 +117,8 @@
 
   (handshake stream)
   (var msg-id 0)
-  (def recv (make-recv stream |(unmarshal (jh/secretbox/decrypt $ msg-id ctx (session-pair :rx)))))
-  (def send (make-send stream |(jh/secretbox/encrypt (marshal $) msg-id ctx (session-pair :tx))))
+  (def recv (make-recv stream (decode msg-id session-pair)))
+  (def send (make-send stream (encode msg-id session-pair)))
   (def fnames (recv))
   (defn closer [&] (:close stream))
   (def ret @{:close closer})

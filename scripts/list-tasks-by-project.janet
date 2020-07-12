@@ -7,6 +7,7 @@
     (string/format "%i:%i:%i" h (inc u) (inc s))
     (string/format "%i-%i-%i %i:%i:%i" y (inc m) (inc d) h (inc u) (inc s))))
 
+# @fixme tasks in projects
 (defn main
   "Program main entry"
   [_]
@@ -26,6 +27,7 @@
          first))
   (each t (first (:project/tasks c project))
     (def [_ {:name n :work-intervals iw}] t)
-    (print n)
+    (print "# " n)
     (each {:start s :end e :note t} iw
-      (print " " (datef (os/date s true)) " - " (datef (os/date e true) true) " dur: " (- e s) " s note: " t))))
+      (default e (os/time))
+      (print "  " (datef (os/date s true)) " - " (datef (os/date e true) true) " dur: " (- e s) "s note: " (or t "still running")))))
