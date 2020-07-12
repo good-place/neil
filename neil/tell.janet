@@ -1,4 +1,5 @@
 (import hydrpc :as hr)
+(import jff)
 
 (defn get-strip [s] (string/trim (getline s)))
 
@@ -44,3 +45,12 @@
   "Lists what nested under parent. Parent must be tuple with the id and name and of the parent"
   [parent what]
   ((kw-suf (last parent) what) c (first parent)))
+
+(defn choose
+  "Shows chooser for the input and return choosed ID"
+  [options prompts linef]
+  (->> options
+       (map linef)
+       (jff/choose prompts)
+       (peg/match '(<- (some :d)))
+       first))

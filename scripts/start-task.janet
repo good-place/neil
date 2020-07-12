@@ -1,5 +1,4 @@
 (import ../neil/tell :prefix "")
-(import jff)
 
 (defn main
   "Program main entry"
@@ -10,9 +9,6 @@
     (do
       (print "You have task already running: " (get-in running [1 :name]))
       (getline))
-    (->> (:task/active c)
-         (map |(string/join [(first $) (get-in $ [1 :name])] " - "))
-         (jff/choose "task: ")
-         (peg/match '(<- (some :d)))
-         first
-         (:task/start c))))
+    (let [task (choose (:task/active c) "task: "
+                       |(string/join [(first $) (get-in $ [1 :name])] " - "))]
+      (:task/start c task))))

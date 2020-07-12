@@ -5,16 +5,8 @@
   "Program main entry"
   [_]
   (def client
-    (->> (list :client)
-         first
-         (map |(string/join [(first $) (get-in $ [1 :abbrev]) (get-in $ [1 :name])] " - "))
-         (jff/choose "client: ")
-         (peg/match '(<- (some :d)))
-         first))
+    (choose (first (list :client)) "client: "
+            |(string/join [(first $) (get-in $ [1 :abbrev]) (get-in $ [1 :name])] " - ")))
   (def project
-    (->> (nest-list [client :client] :projects)
-         first
-         (map |(string/join [(first $) (get-in $ [1 :name])] " - "))
-         (jff/choose (string "project [" client "]: "))
-         (peg/match '(<- (some :d)))
-         first)))
+    (choose (first (nest-list [client :client] :projects)) (string "project [" client "]: ")
+            |(string/join [(first $) (get-in $ [1 :name])] " - "))))

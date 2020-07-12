@@ -1,5 +1,4 @@
 (import ../neil/tell :prefix "")
-(import jff)
 
 (defn main
   "Program main entry"
