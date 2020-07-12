@@ -4,6 +4,29 @@
 
 (def c (hr/client "localhost" 6660 "neil-tell"))
 
+(defn pad
+  "Pads integer to at least two chars. Returns string"
+  [i]
+
+  (if (< 10 i) (string i) (string "0" i)))
+
+(defn datef
+  "Format date struct. Returns string"
+  [{:month m :year y :month-day d
+    :minutes u :hours h :seconds s} &opt time?]
+
+  (if time?
+    (string/format "%i:%s:%s" h (pad (inc u)) (pad (inc s)))
+    (string/format "%i-%i-%i %i:%s:%s" y (inc m) (inc d) h (pad (inc u)) (pad (inc s)))))
+
+(defn durf
+  "Format duration in seconds to mm:ss. Returns string"
+  [dur]
+  (def m (math/floor (/ dur 60)))
+  (def s (pad (mod dur 60)))
+  (string/format "%i:%s" m s))
+
+
 (defn- kw-suf
   [what cmd]
   (keyword (string what "/" cmd)))

@@ -7,7 +7,9 @@
 
   (def running (get-in (:task/running c) [0 0]))
   (if running
-    (print "You have task already running: " (get-in running [1 :name]))
+    (do
+      (print "You have task already running: " (get-in running [1 :name]))
+      (getline))
     (->> (:task/active c)
          (map |(string/join [(first $) (get-in $ [1 :name])] " - "))
          (jff/choose "task: ")

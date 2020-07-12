@@ -1,12 +1,6 @@
 (import neil/tell :prefix "")
 (import jff)
 
-(defn- datef [{:month m :year y :month-day d
-               :minutes u :hours h :seconds s} &opt time?]
-  (if time?
-    (string/format "%i:%i:%i" h (inc u) (inc s))
-    (string/format "%i-%i-%i %i:%i:%i" y (inc m) (inc d) h (inc u) (inc s))))
-
 # @fixme tasks in projects
 (defn main
   "Program main entry"
@@ -30,4 +24,8 @@
     (print "# " n)
     (each {:start s :end e :note t} iw
       (default e (os/time))
-      (print "  " (datef (os/date s true)) " - " (datef (os/date e true) true) " dur: " (- e s) "s note: " (or t "still running")))))
+      (print "  " (datef (os/date s true))
+             " - " (datef (os/date e true) true)
+             " dur: " (durf (- e s))
+             " note: " (or t "still running"))))
+  (getline "Press enter to finish"))
