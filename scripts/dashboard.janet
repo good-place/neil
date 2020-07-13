@@ -4,14 +4,16 @@
 (defn main
   "Program main entry"
   [_]
-  (-> ["show-running"
-       "start-task"
-       "stop-task"
-       "add-task-to-project"
-       "complete-task"
-       "list-all-tasks"
-       "list-tasks-by-client"
-       "list-tasks-by-project"
-       "list-tasks-by-state"]
-      (choose "tell neil:" string identity identity)
-      sh/$))
+  (def cmd (-> ["show-running"
+                "start-task"
+                "stop-task"
+                "add-task-to-project"
+                "complete-task"
+                "list-all-tasks"
+                "list-tasks-by-client"
+                "list-tasks-by-project"
+                "list-tasks-by-state"
+                "add-project-to-client"
+                "add-client"]
+               (choose "tell neil:" string identity identity)))
+  (sh/$ (string "/usr/local/bin/" cmd)))

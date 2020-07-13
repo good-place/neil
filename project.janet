@@ -1,5 +1,5 @@
 (declare-project
-  :name "Neil"
+  :name "neil"
   :description "Life Scoring with Janet"
   :dependencies ["https://github.com/janet-lang/spork.git"
                  "https://github.com/pepe/jff.git"
