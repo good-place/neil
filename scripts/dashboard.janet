@@ -11,6 +11,7 @@
        "complete-task"
        "list-all-tasks"
        "list-tasks-by-client"
-       "list-tasks-by-project"]
+       "list-tasks-by-project"
+       "list-tasks-by-state"]
       (choose "tell neil:" string identity identity)
       sh/$))

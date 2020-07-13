@@ -4,13 +4,9 @@
   "Program main entry"
   [_]
   (init)
-  (def client
-    (choose (first (list :client))
-            "client: "
-            |(string/join [(first $) (get-in $ [1 :abbrev]) (get-in $ [1 :name])] " - ")))
   (def project
-    (choose (first (nest-list [client :client] :projects))
-            (string "project [" client "]: ")
+    (choose (first (list :project))
+            (string "project: ")
             |(string/join [(first $) (get-in $ [1 :name])] " - ")))
   (each t (first (:project/tasks c project))
     (def [_ {:name n :state s :work-intervals iw}] t)
