@@ -5,7 +5,8 @@
                  "https://github.com/pepe/jff.git"
                  "https://github.com/good-place/mansion.git"
                  "https://github.com/janet-lang/jhydro.git"
-                 "https://github.com/bakpakin/janet-miniz.git"])
+                 "https://github.com/bakpakin/janet-miniz.git"
+                 "https://github.com/andrewchambers/janet-sh.git"])
 
 (declare-source :source ["neil/tell.janet"])
 

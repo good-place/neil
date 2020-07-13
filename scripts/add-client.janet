@@ -7,6 +7,8 @@
   (def abbrev (get-strip "abbrev:"))
   (def note (get-strip "note:"))
   (init)
-  (add :client {:name name
-                :abbrev abbrev
-                :note note}))
+  (print "Client created with id:"
+         (add :client {:name name
+                       :abbrev abbrev
+                       :note note}))
+  (os/sleep 2))

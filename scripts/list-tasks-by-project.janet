@@ -25,4 +25,5 @@
                " dur: " (durf (- e s))
                " note: " (or t "still running")))
       (print "Not worked yet"))
-    (when completed? (prin "\e[0m"))))
+    (when completed? (prin "\e[0m")))
+  (confirm-exit))

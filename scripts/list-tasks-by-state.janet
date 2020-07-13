@@ -2,8 +2,10 @@
 
 (defn main
   "Program main entry"
-  [_ state]
+  [_]
   (init)
+  (def state (-> ["active" "completed"]
+                 (choose "tell neil:" string identity identity)))
   (each t (:task/by-state c state)
     (def [_ {:name n :project pid :work-intervals iw :state s}] t)
     (def {:name p} (:by-id c pid))
@@ -19,4 +21,5 @@
            (if iw
              (string (length iw) "x T" (durf dur))
              "not yet")
-           "\e[0m")))
+           "\e[0m"))
+  (confirm-exit))

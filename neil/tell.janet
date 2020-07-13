@@ -54,9 +54,13 @@
 
 (defn choose
   "Shows chooser for the input and return choosed ID"
-  [options prompts linef]
+  [options prompts linef &opt matcher transformer]
+  (default matcher |(peg/match '(<- (some :d)) $))
+  (default transformer first)
   (->> options
        (map linef)
        (jff/choose prompts)
-       (peg/match '(<- (some :d)))
-       first))
+       matcher
+       transformer))
+
+(defn confirm-exit [] (getline "Press enter to finish"))

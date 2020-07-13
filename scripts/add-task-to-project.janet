@@ -4,13 +4,12 @@
   "Program main entry"
   [_]
   (init)
-  (def client
-    (choose (first (list :client))
-            "client: "
-            |(string/join [(first $) (get-in $ [1 :abbrev]) (get-in $ [1 :name])] " - ")))
+
   (def project
-    (choose (first (nest-list [client :client] :projects))
-            (string "project [" client "]: ")
+    (choose (first (list :project))
+            (string "project: ")
             |(string/join [(first $) (get-in $ [1 :name])] " - ")))
-  (add :task {:project project
-              :name (get-strip "task:")}))
+  (print "Added task with id: "
+         (add :task {:project project
+                     :name (get-strip "task:")}))
+  (os/sleep 2))
