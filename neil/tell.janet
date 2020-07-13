@@ -9,7 +9,7 @@
   "Pads integer to at least two chars. Returns string"
   [i]
 
-  (if (< 10 i) (string i) (string "0" i)))
+  (if (<= 10 i) (string i) (string "0" i)))
 
 (defn datef
   "Format date struct. Returns string"

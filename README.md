@@ -8,7 +8,6 @@ office who calculates the life score.
 
 ## Domain
 
-
 ---
 Legend:
 
@@ -65,3 +64,7 @@ Default field type is string.
 - web server with reports and analyticks [neil/watch]
   - RPC
   - mendoza
+
+## Scripts
+
+- [ ] archive task, project
