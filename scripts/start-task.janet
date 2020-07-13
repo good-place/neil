@@ -3,7 +3,7 @@
 (defn main
   "Program main entry"
   [_]
-
+  (init)
   (def running (first (:task/by-state c "running")))
   (if running
     (do

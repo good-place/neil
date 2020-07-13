@@ -3,7 +3,13 @@
 
 (defn get-strip [s] (string/trim (getline s)))
 
-(def c (hr/client "localhost" 6660 "neil-tell"))
+(var c nil)
+
+(defn init [&opt hostname port name]
+  (default hostname "localhost")
+  (default port 6660)
+  (default name "neil-tell")
+  (set c (hr/client hostname port name)))
 
 (defn pad
   "Pads integer to at least two chars. Returns string"

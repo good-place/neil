@@ -1,8 +1,9 @@
-(import neil/tell :prefix "")
+(import ../neil/tell :prefix "")
 
 (defn main
   "Program main entry"
   [_]
+  (init)
   (each t (first (:task/list c))
     (def [_ {:name n :project pid :work-intervals iw :state s}] t)
     (def {:name p} (:by-id c pid))

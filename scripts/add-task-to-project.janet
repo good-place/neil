@@ -3,6 +3,7 @@
 (defn main
   "Program main entry"
   [_]
+  (init)
   (def client
     (choose (first (list :client))
             "client: "
