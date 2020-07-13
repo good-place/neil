@@ -67,4 +67,4 @@ Default field type is string.
 
 ## Scripts
 
-- [ ] archive task, project
+- [ ] complete task, project

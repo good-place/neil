@@ -74,7 +74,13 @@
                   (save [id (-> task
                                 (merge (stamp) {:state "active"
                                                 :work-intervals iw})
-                                freeze)]))})
+                                freeze)]))
+     :task/complete (fn [_ id]
+                      (def nt
+                        (-> id load
+                            (merge {:state "completed"})
+                            freeze))
+                      (save [id nt]))})
 
   (hr/server funcs "localhost" 6660))
 
