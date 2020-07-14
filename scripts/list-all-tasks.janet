@@ -15,5 +15,4 @@
            (if iw
              (string (length iw) "x T" (durf dur))
              "not yet")
-           "\e[0m"))
-  (confirm-exit))
+           "\e[0m")))

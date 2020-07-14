@@ -19,5 +19,4 @@
                  " dur: " (durf (- e s))
                  " note: " (or t "still running")))
         (print "Not worked yet")))
-    (print "No task is running"))
-  (confirm-exit))
+    (print "No task is running")))

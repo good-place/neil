@@ -10,5 +10,4 @@
   (print "Client created with id:"
          (add :client {:name name
                        :abbrev abbrev
-                       :note note}))
-  (os/sleep 2))
+                       :note note})))

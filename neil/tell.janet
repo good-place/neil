@@ -62,5 +62,3 @@
        (jff/choose prompts)
        matcher
        transformer))
-
-(defn confirm-exit [] (getline "Press enter to finish"))

@@ -14,5 +14,4 @@
     (print "Canceled")
     (print "Added task with id: "
            (add :task {:project project
-                       :name task})))
-  (os/sleep 2))
+                       :name task}))))
