@@ -10,13 +10,11 @@
       (def [_ {:name n :state s :work-intervals iw}] running)
       (def completed? (= s "completed"))
       (when completed? (prin "\e[35m"))
-      (print "# " n)
+      (prin "# " n ":")
       (if iw
-        (each {:start s :end e :note t} iw
+        (let [{:start s :end e :note t} (last iw)]
           (default e (os/time))
-          (print "  " (datef (os/date s true))
-                 " - " (datef (os/date e true) true)
-                 " dur: " (durf (- e s))
-                 " note: " (or t "still running")))
+          (print " " (datef (os/date s true) true)
+                 " dur: " (durf (- e s))))
         (print "Not worked yet")))
     (print "No task is running")))

@@ -5,9 +5,9 @@
   [_]
   (init)
   (def running (first (:task/by-state c "running")))
-  (tracev running)
   (if running
     (do
-      (print "Stopping task: " ((last running) :name))
-      (:task/stop c (get-strip "note:")))
+      (print "Stopping and marking task complete: " ((last running) :name))
+      (:task/stop c (get-strip "note:"))
+      (:task/complete c (first running)))
     (print "You are not running any task")))
