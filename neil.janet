@@ -53,7 +53,8 @@
      :project/tasks (fn [_ project] (first-retrieved {:project project}))
      :task/add (fn [_ task] (-> (populate :task task) freeze save))
      :task/list (fn [_] (first-retrieved {:type "task"}))
-     :task/by-state (fn [_ state] (first (utils/intersect (retrieve {:type "task" :state state}))))
+     :task/by-state (fn [_ state] (utils/intersect (retrieve {:type "task" :state state})))
+     :task/running (fn [self] (first (:task/by-state self "running")))
      :task/start (fn [_ id]
                    (def task (table ;(kvs (load id))))
                    (if-let [wi (task :work-intervals)]

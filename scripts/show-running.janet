@@ -4,7 +4,7 @@
   "Program main entry"
   [_]
   (init)
-  (def running (:task/by-state c "running"))
+  (def running (:task/running c))
   (if running
     (do
       (def [_ {:name n :state s :work-intervals iw}] running)
