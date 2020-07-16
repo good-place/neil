@@ -6,7 +6,7 @@
   (init)
 
   (def project
-    (choose (first (list :project))
+    (choose (list :project)
             (string "project: ")
             |(string/join [(first $) (get-in $ [1 :name])] " - ")))
   (def task (get-strip "task:"))

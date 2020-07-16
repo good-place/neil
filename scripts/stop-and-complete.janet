@@ -4,7 +4,7 @@
   "Program main entry"
   [_]
   (init)
-  (def running (first (:task/by-state c "running")))
+  (def running (:task/by-state c "running"))
   (if running
     (do
       (print "Stopping and marking task complete: " ((last running) :name))

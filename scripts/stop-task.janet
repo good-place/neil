@@ -4,7 +4,7 @@
   "Program main entry"
   [_]
   (init)
-  (def running (first (:task/by-state c "running")))
+  (def running (:task/by-state c "running"))
   (tracev running)
   (if running
     (do

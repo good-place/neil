@@ -40,17 +40,20 @@
       data
       (stamp now)))
 
+  (defn- first-retrieved [what]
+    (-> what retrieve first))
+
   (def funcs
     {:client/add (fn [_ client] (-> (populate :client client) freeze save))
-     :client/list (fn [_] (retrieve {:type "client"}))
-     :client/projects (fn [_ client] (retrieve {:client client}))
+     :client/list (fn [_] (first-retrieved {:type "client"}))
+     :client/projects (fn [_ client] (first-retrieved {:client client}))
      :by-id (fn [_ id] (:load visitor "scores" id))
      :project/add (fn [_ project] (-> (populate :project project) freeze save))
-     :project/list (fn [_] (retrieve {:type "project"}))
-     :project/tasks (fn [_ project] (retrieve {:project project}))
+     :project/list (fn [_] (first-retrieved {:type "project"}))
+     :project/tasks (fn [_ project] (first-retrieved {:project project}))
      :task/add (fn [_ task] (-> (populate :task task) freeze save))
-     :task/list (fn [_] (retrieve {:type "task"}))
-     :task/by-state (fn [_ state] (utils/intersect (retrieve {:type "task" :state state})))
+     :task/list (fn [_] (first-retrieved {:type "task"}))
+     :task/by-state (fn [_ state] (first (utils/intersect (retrieve {:type "task" :state state}))))
      :task/start (fn [_ id]
                    (def task (table ;(kvs (load id))))
                    (if-let [wi (task :work-intervals)]
