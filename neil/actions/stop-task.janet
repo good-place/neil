@@ -8,5 +8,9 @@
   (if running
     (do
       (print "Stopping task: " ((last running) :name))
-      (:task/stop c (get-strip "note:")))
+      (def note (get-strip "note:"))
+      (:task/stop c note)
+      (when (string/has-suffix? "done" note)
+        (print "Marking task as complete")
+        (:task/complete c (first running))))
     (print "You are not running any task")))
