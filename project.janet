@@ -16,10 +16,10 @@
                     :lflags lvd
                     :install true)
 
-(each f (os/dir "scripts")
+(each f (os/dir "neil/actions/")
   (def [n] (peg/match '(<- (to ".")) f))
   (declare-executable :name n
-                      :entry (string "scripts/" f)
+                      :entry (string "neil/actions/" f)
                       :lflags lvd
                       :install true))
 

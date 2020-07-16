@@ -1,4 +1,4 @@
-(import ../neil/tell :prefix "")
+(import ../tell :prefix "")
 (import sh)
 
 (defn main
