@@ -11,6 +11,8 @@
   (default name "neil-tell")
   (set c (hr/client hostname port name)))
 
+(defn running [] (:task/running c))
+
 (defn pad
   "Pads integer to at least two chars. Returns string"
   [i]
@@ -70,8 +72,11 @@
   (def {:name p} (:by-id c pid))
   (def dur (and iw (reduce (fn [r i] (+ r (- (or (i :end) (os/time))
                                              (i :start)))) 0 iw)))
-  (def completed? (= s "completed"))
-  (print "# \e[36m" p (if completed? "\e[35m" "\e[0m") " - " n
+  (defn color [state] (case state
+                        "completed" "\e[35m"
+                        "canceled" "\e[34m"
+                        "\e[0m"))
+  (print "# \e[36m" p (color s) " - " n
          " \e[36m "
          (if iw
            (string (length iw) "x T" (durf dur))
@@ -79,10 +84,21 @@
          "\e[0m"))
 
 (defn- task-scorer [[_ task]]
-  (string (case (task :state) "running" 2 "active" 1 0)
+  (string (task :project)
+          (case (task :state) "running" 100 "active" 10 "complete" 1 0)
           (task :timestamp)))
 
 (defn sort-tasks
   "Sort tasks by state"
   [tasks]
   (sort-by task-scorer tasks))
+
+(defn stop-task
+  "Stops task and do commands if in note"
+  [running]
+  (print "Stopping task: " ((last running) :name))
+  (def note (get-strip "note:"))
+  (:task/stop c note)
+  (when (string/has-suffix? "done" note)
+    (print "Marking task as complete")
+    (:task/complete c (first running))))

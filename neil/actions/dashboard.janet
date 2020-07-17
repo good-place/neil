@@ -7,12 +7,12 @@
   (var cmd nil)
   (forever
     (unless cmd
-      (set cmd (-> ["show-running"
-                    "start-task"
+      (set cmd (-> ["start-task"
                     "stop-task"
-                    "add-task-to-project"
                     "complete-task"
-                    "stop-and-complete"
+                    "stop-and-start"
+                    "cancel-task"
+                    "add-task-to-project"
                     "list-all-tasks"
                     "list-tasks-by-client"
                     "list-tasks-by-project"

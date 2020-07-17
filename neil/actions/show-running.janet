@@ -7,10 +7,9 @@
   (def running (:task/running c))
   (if running
     (do
-      (def [_ {:name n :state s :work-intervals iw}] running)
-      (def completed? (= s "completed"))
-      (when completed? (prin "\e[35m"))
-      (prin "# " n ":")
+      (def [_ {:name n :project pid :work-intervals iw :state s}] running)
+      (def {:name p} (:by-id c pid))
+      (prin "@" p " - #" (first running) " " n ":")
       (if iw
         (let [{:start s :end e :note t} (last iw)]
           (default e (os/time))

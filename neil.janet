@@ -83,7 +83,13 @@
                         (-> id load
                             (merge {:state "completed"})
                             freeze))
-                      (save [id nt]))})
+                      (save [id nt]))
+     :task/cancel (fn [_ id]
+                    (def nt
+                      (-> id load
+                          (merge {:state "canceled"})
+                          freeze))
+                    (save [id nt]))})
 
   (hr/server funcs "localhost" 6660))
 

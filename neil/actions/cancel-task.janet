@@ -4,13 +4,12 @@
   "Program main entry"
   [_]
   (init)
-  (def running (:task/running c))
-  (stop-task running)
   (let [projects (table ;(flatten (list :project)))
-        tid (choose (:task/by-state c "active") "task: "
+        tasks (filter |(get-in $ [1 :work-intervals]) (:task/by-state c "active"))
+        tid (choose tasks "task: "
                     |(string/join [(first $)
                                    ((projects (get-in $ [1 :project])) :name)
                                    (get-in $ [1 :name])] " - "))
         task (:by-id c tid)]
-    (:task/start c tid)
-    (print "Starting task " (task :name))))
+    (print "Marking " (task :name) " as canceled")
+    (:task/cancel c tid)))
