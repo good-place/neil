@@ -6,14 +6,8 @@
   (init)
   (def running (:task/running c))
   (if running
-    (do
-      (def [_ {:name n :project pid :work-intervals iw :state s}] running)
-      (def {:name p} (:by-id c pid))
-      (prin "@" p " - #" (first running) " " n ":")
-      (if iw
-        (let [{:start s :end e :note t} (last iw)]
-          (default e (os/time))
-          (print " " (datef (os/date s true) true)
-                 " dur: " (durf (- e s))))
-        (print "Not worked yet")))
-    (print "No task is running")))
+    (let [[rid {:name n :project pid :work-intervals iw :state s}] running
+          {:name p} (:by-id c pid)
+          {:start s :note t} (last iw)]
+      (prin (durf (- (os/time) s)) " @" p " - #" rid " " n ""))
+    (prin "No task is running")))
