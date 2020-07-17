@@ -12,6 +12,7 @@
                     "complete-task"
                     "stop-and-start"
                     "cancel-task"
+                    "add-and-start"
                     "add-task-to-project"
                     "list-all-tasks"
                     "list-tasks-by-client"

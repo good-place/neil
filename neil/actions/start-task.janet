@@ -6,8 +6,8 @@
   (init)
   (def running (:task/running c))
   (if running
-    (do
-      (print "You have task already running: " (get-in running [1 :name])))
+
+    (print "You have task already running: " (get-in running [1 :name]))
     (let [projects (table ;(flatten (list :project)))
           tid (choose (:task/by-state c "active") "task: "
                       |(string/join [(first $)
