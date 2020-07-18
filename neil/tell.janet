@@ -72,10 +72,11 @@
   (def {:name p} (:by-id c pid))
   (def dur (and iw (reduce (fn [r i] (+ r (- (or (i :end) (os/time))
                                              (i :start)))) 0 iw)))
-  (defn color [state] (case state
-                        "completed" "\e[35m"
-                        "canceled" "\e[34m"
-                        "\e[0m"))
+  (defn color [state]
+    (case state
+      "completed" "\e[35m"
+      "canceled" "\e[34m"
+      "\e[0m"))
   (print "# \e[36m" p (color s) " - " n
          " \e[36m "
          (if iw
@@ -83,15 +84,22 @@
            "not yet")
          "\e[0m"))
 
-(defn- task-scorer [[_ task]]
-  (string (task :project)
-          (case (task :state) "running" 100 "active" 10 "complete" 1 0)
-          (task :timestamp)))
 
 (defn sort-tasks
   "Sort tasks by state"
   [tasks]
-  (sort-by task-scorer tasks))
+  (defn score [task]
+    (case (task :state)
+      "running" 3
+      "active" 2
+      "completed" 1
+      "canceled" 0
+      (error (string "Unknown state " (task :state)))))
+  (defn scorer [[_ task]]
+    (string (task :project)
+            (score task)
+            (task :timestamp)))
+  (sort-by scorer tasks))
 
 (defn stop-task
   "Stops task and do commands if in note"
