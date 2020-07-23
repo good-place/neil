@@ -2,7 +2,7 @@
 (import mansion/reception)
 (import mansion/utils)
 
-(import hydrpc :as hr)
+(import ./hydrpc :as hr)
 
 (defn- ensure-db
   [name]
