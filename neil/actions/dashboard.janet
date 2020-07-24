@@ -7,20 +7,21 @@
   (var cmd nil)
   (forever
     (unless cmd
-      (set cmd (-> ["start-task"
-                    "stop-task"
-                    "complete-task"
-                    "stop-and-start"
-                    "cancel-task"
-                    "add-and-start"
-                    "add-task-to-project"
-                    "list-all-tasks"
-                    "list-tasks-by-client"
-                    "list-tasks-by-project"
-                    "list-tasks-by-state"
-                    "add-project-to-client"
-                    "add-client"]
-                   (choose "tell neil:" string identity identity))))
+      (set cmd
+           (choose ["sa - start-task"
+                    "so - stop-task"
+                    "ct - complete-task"
+                    "ss - stop-and-start"
+                    "nt - cancel-task"
+                    "as - add-and-start"
+                    "ap - add-task-to-project"
+                    "la - list-all-tasks"
+                    "lc - list-tasks-by-client"
+                    "lp - list-tasks-by-project"
+                    "ls - list-tasks-by-state"
+                    "ar - add-project-to-client"
+                    "ac - add-client"] "tell neil:" string
+                   |(peg/match '(* (thru "-") " " '(any 1)) $) first)))
     (sh/$ (string "/usr/local/bin/" cmd))
     (case (get-strip "cmd [h]ome, [r]erun:")
       "h" (set cmd nil)
