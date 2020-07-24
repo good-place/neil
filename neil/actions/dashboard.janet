@@ -12,6 +12,7 @@
       (set cmds (if (running)
                   ["so - stop-task"
                    "ss - stop-and-start"
+                   "ar - add-task-running"
                    "ap - add-task-to-project"]
                   ["sa - start-task"
                    "co - continue-last"
