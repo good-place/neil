@@ -88,7 +88,9 @@
               (if-not f
                 (error (string "no function " fnname " supported")))
               (def result (f functions ;args))
-              (send [true result]))
+              (when (functions :aspect/before) (:aspect/before functions fnname args))
+              (send [true result])
+              (when (functions :aspect/after) (:aspect/after functions fnname args)))
             ([err]
               (send [false err]))))))))
 
