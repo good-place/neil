@@ -10,6 +10,6 @@
                     |(string/join [(first $)
                                    ((projects (get-in $ [1 :project])) :name)
                                    (get-in $ [1 :name])] " - "))
-        task (:by-id neil tid)]
+        task (by-id tid)]
     (print "Marking " (task :name) " as canceled")
     (:task/cancel neil tid)))

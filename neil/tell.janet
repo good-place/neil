@@ -110,3 +110,22 @@
   (when (string/has-suffix? "done" note)
     (print "Marking task as complete")
     (:task/complete neil (first running))))
+
+(defn last-running
+  "Returns the last ran task"
+  []
+
+  (->> (:task/by-state neil "active")
+       (filter (fn [t] (get-in t [1 :work-intervals])))
+       (sort-by |((last (get-in $ [1 :work-intervals])) :end))
+       last))
+
+(defn by-state
+  "Returns tasks by state"
+  [state]
+  (:task/by-state neil "active"))
+
+(defn by-id
+  "Find by id"
+  [id]
+  (:by-id neil tid))

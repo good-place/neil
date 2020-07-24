@@ -14,6 +14,7 @@
                    "ss - stop-and-start"
                    "ap - add-task-to-project"]
                   ["sa - start-task"
+                   "co - continue-last"
                    "ct - complete-task"
                    "nt - cancel-task"
                    "as - add-and-start"
