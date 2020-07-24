@@ -1,4 +1,4 @@
-(import hydrpc :as hr)
+(import ./hydrpc :as hr)
 (import jff)
 
 (defn get-strip [s] (string/trim (getline s)))
