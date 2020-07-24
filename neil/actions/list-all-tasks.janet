@@ -4,5 +4,5 @@
   "Program main entry"
   [_]
   (init)
-  (each t (sort-tasks (:task/list c))
+  (each t (sort-tasks (list :task))
     (print-task t)))

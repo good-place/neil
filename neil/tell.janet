@@ -3,15 +3,18 @@
 
 (defn get-strip [s] (string/trim (getline s)))
 
-(var c nil)
+(var neil nil)
 
 (defn init [&opt hostname port name]
   (default hostname "localhost")
   (default port 6660)
   (default name "neil-tell")
-  (set c (hr/client hostname port name)))
+  (set neil (hr/client hostname port name)))
 
-(defn running [] (:task/running c))
+(var _running nil)
+
+(defn running []
+  (or _running (set _running (:task/running neil))))
 
 (defn pad
   "Pads integer to at least two chars. Returns string"
@@ -43,16 +46,16 @@
 (defn list
   "Lists resource what"
   [what]
-  ((kw-suf what :list) c))
+  ((kw-suf what :list) neil))
 
 (defn add
   "Adds data to resource what"
-  [what data] ((kw-suf what :add) c data))
+  [what data] ((kw-suf what :add) neil data))
 
 (defn nest-list
   "Lists what nested under parent. Parent must be tuple with the id and name and of the parent"
   [parent what]
-  ((kw-suf (last parent) what) c (first parent)))
+  ((kw-suf (last parent) what) neil (first parent)))
 
 (defn choose
   "Shows chooser for the input and return choosed ID"
@@ -69,7 +72,7 @@
   "Nice prints task"
   [t]
   (def [_ {:name n :project pid :work-intervals iw :state s}] t)
-  (def {:name p} (:by-id c pid))
+  (def {:name p} (:by-id neil pid))
   (def dur (and iw (reduce (fn [r i] (+ r (- (or (i :end) (os/time))
                                              (i :start)))) 0 iw)))
   (defn color [state]
@@ -106,7 +109,7 @@
   [running]
   (print "Stopping task: " ((last running) :name))
   (def note (get-strip "note:"))
-  (:task/stop c note)
+  (:task/stop neil note)
   (when (string/has-suffix? "done" note)
     (print "Marking task as complete")
-    (:task/complete c (first running))))
+    (:task/complete neil (first running))))

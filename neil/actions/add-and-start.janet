@@ -4,9 +4,8 @@
   "Program main entry"
   [_]
   (init)
-  (def running (:task/running c))
-  (if running
-    (print "You have task already running: " (get-in running [1 :name]))
+  (if (running)
+    (print "You have task already running: " (get-in (running) [1 :name]))
     (do
       (def project
         (choose (list :project)
@@ -16,5 +15,5 @@
       (if (= task "cancel")
         (print "Canceled")
         (let [tid (add :task {:project project :name task})]
-          (:task/start c tid)
+          (:task/start neil tid)
           (print "Added and started task with id: " tid))))))

@@ -4,8 +4,8 @@
   "Program main entry"
   [_]
   (init)
-  (let [tid (choose (:task/by-state c "active") "task: "
+  (let [tid (choose (:task/by-state neil "active") "task: "
                     |(string/join [(first $) (get-in $ [1 :name])] " - "))
-        task (:by-id c tid)]
+        task (:by-id neil tid)]
     (print "Marking " (task :name) " as complete")
-    (:task/complete c tid)))
+    (:task/complete neil tid)))
