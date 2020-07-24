@@ -2,26 +2,17 @@
 (import mansion/reception)
 (import mansion/utils)
 
-(import ./hydrpc :as hr)
+(import ./neil/hydrpc :as hr)
 
-(defn- ensure-db
-  [name]
-  (match (protect (buffet/create name @{:to-index [:type :abbrev :name :client :project :state]}))
-    [true db] (do (print "Creating DB") (:close db))
-    [false _] (print "DB already created")))
-
-(defn- start-reception
+(defn start-reception
   [name]
   (:run (reception/open [name])))
 
-(defn store [name]
-  "Opens store"
-  (ensure-db name)
-  (start-reception name))
-
 (defn server
   "Starts RPC server"
-  [reception]
+  [reception &opt host port]
+  (default host "localhost")
+  (default port 6660)
   (def visitor (:visit reception "neil"))
   (defn save [what] (:save visitor "scores" what))
   (defn retrieve [which] (:retrieve visitor "scores" which))
@@ -91,9 +82,10 @@
                           freeze))
                     (save [id nt]))})
 
-  (hr/server funcs "localhost" 6660))
+  (print "Neil started to score on " host " " port)
+  (hr/server funcs host port))
 
 (defn main [_]
   (->> "scores"
-       store
-       (server)))
+       start-reception
+       server))

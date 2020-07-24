@@ -28,6 +28,11 @@
 
 (post-deps
   (import jhydro :as jh)
+  (import mansion/buffet)
+
   (phony "genpsk" []
          (with-dyns [:out (file/open "psk.key" :w)]
-           (print (jh/random/buf 32)))))
+           (print (jh/random/buf 32))))
+  (phony "createdb" []
+         (buffet/create "scores" @{:to-index [:type :abbrev :name :client :project :state]})
+         (print "Scores created")))
