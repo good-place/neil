@@ -15,5 +15,5 @@
       (if (= task "cancel")
         (print "Canceled")
         (let [tid (add :task {:project project :name task})]
-          (:task/start neil tid)
+          (start tid)
           (print "Added and started task with id: " tid))))))

@@ -11,5 +11,5 @@
                                    ((projects (get-in $ [1 :project])) :name)
                                    (get-in $ [1 :name])] " - "))
         task (by-id tid)]
-    (:task/start neil tid)
+    (start tid)
     (print "Starting task " (task :name))))

@@ -6,5 +6,5 @@
   (init)
   (unless (running)
     (def [task] (last-running))
-    (:task/start neil task)
+    (start task)
     (print "Continue task id " task)))

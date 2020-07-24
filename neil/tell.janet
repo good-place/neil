@@ -128,4 +128,10 @@
 (defn by-id
   "Find by id"
   [id]
-  (:by-id neil tid))
+  (:by-id neil id))
+
+(defn start
+  "Starts the task"
+  [task]
+
+  (:task/start neil task))
