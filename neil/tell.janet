@@ -11,10 +11,7 @@
   (default name "neil-tell")
   (set neil (hr/client hostname port name)))
 
-(var _running nil)
-
-(defn running []
-  (or _running (set _running (:task/running neil))))
+(defn running [] (:task/running neil))
 
 (defn pad
   "Pads integer to at least two chars. Returns string"
