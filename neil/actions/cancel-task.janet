@@ -5,7 +5,7 @@
   [_]
   (init)
   (let [projects (table ;(flatten (list :project)))
-        tasks (filter |(get-in $ [1 :work-intervals]) (by-state "active"))
+        tasks (filter |(not (get-in $ [1 :work-intervals])) (by-state "active"))
         tid (choose tasks "task: "
                     |(string/join [(first $)
                                    ((projects (get-in $ [1 :project])) :name)
