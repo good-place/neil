@@ -101,7 +101,7 @@
             (task :timestamp)))
   (sort-by scorer tasks))
 
-(defn stop-task
+(defn stop
   "Stops task and do commands if in note"
   [running]
   (print "Stopping task: " ((last running) :name))
@@ -135,3 +135,15 @@
   [task]
 
   (:task/start neil task))
+
+(defn complete
+  "Completes task"
+  [id]
+
+  (:task/complete neil id))
+
+(defn cancel
+  "Cancel task"
+  [id]
+
+  (:task/cancel neil id))

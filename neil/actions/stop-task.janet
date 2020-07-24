@@ -5,5 +5,5 @@
   [_]
   (init)
   (if (running)
-    (stop-task (running))
+    (stop (running))
     (print "You are not running any task")))

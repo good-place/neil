@@ -4,7 +4,7 @@
   "Program main entry"
   [_]
   (init)
-  (stop-task (running))
+  (stop (running))
   (let [projects (table ;(flatten (list :project)))
         tid (choose (by-state "active") "task: "
                     |(string/join [(first $)
