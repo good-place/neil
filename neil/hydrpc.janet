@@ -29,14 +29,14 @@
 (def psk (string/trimr (slurp "psk.key")))
 
 (defn encode [msg-id session-pair]
-  (fn encode [msg]
+  (fn encoder [msg]
     (-> msg
         marshal
         z/compress
         (jh/secretbox/encrypt msg-id ctx (session-pair :tx)))))
 
 (defn decode [msg-id session-pair]
-  (fn decode [msg]
+  (fn decoder [msg]
     (-> msg
         (jh/secretbox/decrypt msg-id ctx (session-pair :rx))
         z/decompress

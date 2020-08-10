@@ -6,10 +6,9 @@
   [_]
   (var cmd nil)
   (var cmds [])
-  (init)
   (forever
     (unless cmd
-      (set cmds (if (running)
+      (set cmds (if (tell (running))
                   ["so - stop-task"
                    "ss - stop-and-start"
                    "ar - add-task-running"

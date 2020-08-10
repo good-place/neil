@@ -3,15 +3,16 @@
 
 (defn get-strip [s] (string/trim (getline s)))
 
-(var neil nil)
-
 (defn init [&opt hostname port name]
   (default hostname "localhost")
   (default port 6660)
   (default name "neil-tell")
-  (set neil (hr/client hostname port name)))
+  (hr/client hostname port name))
 
-(defn running [] (:task/running neil))
+(defmacro tell [& forms]
+  ~(with [neil (init)] ,;forms))
+
+(defn running [] (tell (:task/running neil)))
 
 (defn pad
   "Pads integer to at least two chars. Returns string"
@@ -43,16 +44,16 @@
 (defn list
   "Lists resource what"
   [what]
-  ((kw-suf what :list) neil))
+  (tell ((kw-suf what :list) neil)))
 
 (defn add
   "Adds data to resource what"
-  [what data] ((kw-suf what :add) neil data))
+  [what data] (tell ((kw-suf what :add) neil data)))
 
 (defn nest-list
   "Lists what nested under parent. Parent must be tuple with the id and name and of the parent"
   [parent what]
-  ((kw-suf (last parent) what) neil (first parent)))
+  (tell ((kw-suf (last parent) what) neil (first parent))))
 
 (defn choose
   "Shows chooser for the input and return choosed ID"
@@ -69,7 +70,7 @@
   "Nice prints task"
   [t]
   (def [_ {:name n :project pid :work-intervals iw :state s}] t)
-  (def {:name p} (:by-id neil pid))
+  (def {:name p} (tell (:by-id neil pid)))
   (def dur (and iw (reduce (fn [r i] (+ r (- (or (i :end) (os/time))
                                              (i :start)))) 0 iw)))
   (defn color [state]
@@ -106,16 +107,16 @@
   [running]
   (print "Stopping task: " ((last running) :name))
   (def note (get-strip "note:"))
-  (:task/stop neil note)
-  (when (string/has-suffix? "done" note)
-    (print "Marking task as complete")
-    (:task/complete neil (first running))))
+  (tell
+    (:task/stop neil note)
+    (when (string/has-suffix? "done" note)
+      (print "Marking task as complete")
+      (:task/complete neil (first running)))))
 
 (defn last-running
   "Returns the last ran task"
   []
-
-  (->> (:task/by-state neil "active")
+  (->> (tell (:task/by-state neil "active"))
        (filter (fn [t] (get-in t [1 :work-intervals])))
        (sort-by |((last (get-in $ [1 :work-intervals])) :end))
        last))
@@ -123,27 +124,25 @@
 (defn by-state
   "Returns tasks by state"
   [state]
-  (:task/by-state neil "active"))
+  (tell ((:task/by-state neil "active"))))
 
 (defn by-id
   "Find by id"
   [id]
-  (:by-id neil id))
+  (tell (:by-id neil id)))
 
 (defn start
   "Starts the task"
   [task]
-
-  (:task/start neil task))
+  (tell (:task/start neil task)))
 
 (defn complete
   "Completes task"
   [id]
-
-  (:task/complete neil id))
+  (tell (:task/complete neil id)))
 
 (defn cancel
   "Cancel task"
   [id]
 
-  (:task/cancel neil id))
+  (tell (:task/cancel neil id)))

@@ -3,6 +3,4 @@
 (defn main
   "Program main entry"
   [_]
-  (init)
-  (each t (sort-tasks (list :task))
-    (print-task t)))
+  (tell (each t (sort-tasks (list :task)) (print-task t))))

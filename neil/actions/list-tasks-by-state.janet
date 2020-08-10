@@ -3,8 +3,7 @@
 (defn main
   "Program main entry"
   [_]
-  (init)
-  (def state (-> ["active" "completed" "canceled"]
-                 (choose "tell neil:" string identity identity)))
-  (each t (sort-tasks (by-state state))
-    (print-task t)))
+  (tell
+    (def state (choose ["active" "completed" "canceled"] "tell neil:" string identity identity))
+    (each t (sort-tasks (by-state state))
+      (print-task t))))
