@@ -1,5 +1,6 @@
 (import ./hydrpc :as hr)
 (import jff)
+(import dotenv)
 
 # utils
 (defn get-strip [s] (string/trim (getline s)))
@@ -31,11 +32,13 @@
   (keyword (string what "/" cmd)))
 
 # telling
-(defn init [&opt hostname port name]
-  (default hostname "localhost")
-  (default port 6660)
+(defn init [&opt hostname port name psk]
+  (def [h p] (string/split ":" (or (dotenv/env :neil-url) "localhost:6660")))
+  (default hostname h)
+  (default port p)
   (default name "neil-tell")
-  (hr/client hostname port name))
+  (default psk (dotenv/env :neil-psk))
+  (hr/client hostname port name psk))
 
 (defmacro tell [& forms]
   ~(with [neil (init)] ,;forms))

@@ -1,3 +1,5 @@
 scores/
 psk.key
 build/
+
+.env

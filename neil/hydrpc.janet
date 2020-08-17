@@ -18,16 +18,6 @@
 
 (def ctx "neilneil")
 
-(def default-host
-  "Default host to run server on and connect to."
-  "127.0.0.1")
-
-(def default-port
-  "Default port to run the net repl."
-  "9366")
-
-(def psk (string/trimr (slurp "psk.key")))
-
 (defn encode [msg-id session-pair]
   (fn encoder [msg]
     (-> msg
@@ -54,9 +44,7 @@
   "Create an RPC server. The default host is \"127.0.0.1\" and the
   default port is \"9366\". Also must take a dictionary of functions
   that clients can call."
-  [functions &opt host port]
-  (default host default-host)
-  (default port default-port)
+  [functions host port psk]
   (def keys-msg (keys functions))
   (def {:public-key pk :secret-key sk} (jh/kx/keygen))
 
@@ -95,13 +83,10 @@
               (send [false err]))))))))
 
 (defn client
-  "Create an RPC client. The default host is \"127.0.0.1\" and the
-  default port is \"9366\". Returns a table of async functions
+  "Create an RPC client. Returns a table of async functions
   that can be used to make remote calls. This table also contains
   a close function that can be used to close the connection."
-  [&opt host port name]
-  (default host default-host)
-  (default port default-port)
+  [&opt host port name psk]
   (def stream (net/connect host port))
 
   (var session-pair {})
