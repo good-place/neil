@@ -1,18 +1,8 @@
 (import ./hydrpc :as hr)
 (import jff)
 
+# utils
 (defn get-strip [s] (string/trim (getline s)))
-
-(defn init [&opt hostname port name]
-  (default hostname "localhost")
-  (default port 6660)
-  (default name "neil-tell")
-  (hr/client hostname port name))
-
-(defmacro tell [& forms]
-  ~(with [neil (init)] ,;forms))
-
-(defn running [] (tell (:task/running neil)))
 
 (defn pad
   "Pads integer to at least two chars. Returns string"
@@ -36,10 +26,21 @@
   (def s (pad (mod dur 60)))
   (string/format "%i:%s" m s))
 
-
 (defn- kw-suf
   [what cmd]
   (keyword (string what "/" cmd)))
+
+# telling
+(defn init [&opt hostname port name]
+  (default hostname "localhost")
+  (default port 6660)
+  (default name "neil-tell")
+  (hr/client hostname port name))
+
+(defmacro tell [& forms]
+  ~(with [neil (init)] ,;forms))
+
+(defn running [] (tell (:task/running neil)))
 
 (defn list
   "Lists resource what"
