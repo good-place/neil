@@ -17,12 +17,10 @@
                     :lflags lvd
                     :install true)
 
-(each f (os/dir "neil/actions/")
-  (def [n] (peg/match '(<- (to ".")) f))
-  (declare-executable :name n
-                      :entry (string "neil/actions/" f)
-                      :lflags lvd
-                      :install true))
+(declare-executable :name "dashboard"
+                    :entry "neil/actions/dashboard.janet"
+                    :lflags lvd
+                    :install true)
 
 (phony "neil" [] (os/execute ["janet" "neil.janet"] :p))
 

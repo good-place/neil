@@ -29,7 +29,11 @@
       (set cmd
            (choose cmds "tell neil:" string
                    |(peg/match '(* (thru "-") " " '(any 1)) $) first)))
-    (sh/$ (string "/usr/local/bin/" cmd))
+    (def code (get-in
+                (require (string "./neil/actions/" cmd))
+                ['main :value]))
+    (code cmd)
+
     (case (get-strip "cmd [h]ome, [r]erun:")
       "h" (set cmd nil)
       "r" (print "Rerun " cmd)

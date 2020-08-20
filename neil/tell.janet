@@ -128,7 +128,7 @@
 (defn by-state
   "Returns tasks by state"
   [state]
-  (tell ((:task/by-state neil "active"))))
+  (tell (:task/by-state neil "active")))
 
 (defn by-id
   "Find by id"
