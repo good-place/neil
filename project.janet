@@ -6,24 +6,17 @@
                  "https://github.com/good-place/mansion.git"
                  "https://github.com/janet-lang/jhydro.git"
                  "https://github.com/bakpakin/janet-miniz.git"
-                 "https://github.com/andrewchambers/janet-sh.git"
                  "https://github.com/joy-framework/dotenv"])
 
-(declare-source :source ["neil/tell.janet"])
+(declare-source :source ["neil"])
 
-(def lvd ["-lleveldb"])
-(declare-executable :name "neil"
-                    :entry "neil.janet"
-                    :lflags lvd
-                    :install true)
+(declare-binscript :main "neiloffice" :install true)
 
-(declare-executable :name "dashboard"
-                    :entry "neil/actions/dashboard.janet"
-                    :lflags lvd
-                    :install true)
+(declare-binscript :main "neilcomm" :install true)
 
-(phony "neil" [] (os/execute ["janet" "neil.janet"] :p))
+(phony "offi" [] (os/execute ["neiloffice"] :p))
 
+(phony "comm" [] (os/execute ["neilcomm"] :p))
 
 (post-deps
   (import jhydro :as jh)

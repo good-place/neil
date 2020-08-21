@@ -1,9 +1,11 @@
+#!/usr/bin/env janet
+
 (import mansion/buffet)
 (import mansion/reception)
 (import mansion/utils)
 (import dotenv)
 
-(import ./neil/hydrpc :as hr)
+(import neil/hydrpc :as hr)
 
 (defn start-reception
   [name]

@@ -1,5 +1,5 @@
-(import ../tell :prefix "")
-(import sh)
+#!/usr/bin/env janet
+(import neil/tell :prefix "")
 
 (defn main
   "Program main entry"
@@ -30,7 +30,7 @@
            (choose cmds "tell neil:" string
                    |(peg/match '(* (thru "-") " " '(any 1)) $) first)))
     (def code (get-in
-                (require (string "./neil/actions/" cmd))
+                (require (string "neil/actions/" cmd))
                 ['main :value]))
     (code cmd)
 
