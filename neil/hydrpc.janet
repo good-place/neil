@@ -68,7 +68,8 @@
         (def recv (make-recv stream (decode msg-id session-pair)))
         (def send (make-send stream (encode msg-id session-pair)))
         (send keys-msg)
-        (while (def msg (recv))
+        (while (def [ok msg] (protect (recv)))
+          (unless ok (break))
           (++ msg-id)
           (try
             (let [[fnname args] msg
