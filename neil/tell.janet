@@ -32,7 +32,7 @@
   (keyword (string what "/" cmd)))
 
 # telling
-(defn init [&opt hostname port name psk]
+(defn- init [&opt hostname port name psk]
   (def [h p] (string/split ":" (or (dotenv/env :neil-url) "localhost:6660")))
   (default hostname h)
   (default port p)
@@ -40,7 +40,10 @@
   (default psk (dotenv/env :neil-psk))
   (hr/client hostname port name psk))
 
-(defmacro tell [& forms]
+(defmacro tell
+  "Macro wchich defines neil for all the forms.
+   It ensures closing connection after all forms are evalueated."
+  [& forms]
   ~(with [neil (init)] ,;forms))
 
 (defn running [] (tell (:task/running neil)))
