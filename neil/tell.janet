@@ -1,7 +1,6 @@
 (import ./psk :prefix "")
 (import ./hydrpc :as hr)
 (import jff)
-(import dotenv)
 
 # utils
 (defn get-strip [s] (string/trim (getline s)))
@@ -34,7 +33,7 @@
 
 # telling
 (defn init [&opt hostname port name]
-  (def [h p] (string/split ":" (or (dotenv/env :neil-url) "localhost:6660")))
+  (def [h p] (string/split ":" (or (os/getenv "NEIL_URL") "localhost:6660")))
   (default hostname h)
   (default port p)
   (default name "neil-tell")

@@ -3,7 +3,6 @@
 (import mansion/buffet)
 (import mansion/reception)
 (import mansion/utils)
-(import dotenv)
 
 (import neil/psk :prefix "")
 (import neil/hydrpc :as hr)
@@ -15,7 +14,7 @@
 (defn server
   "Starts RPC server"
   [reception &opt host port]
-  (def [h p] (string/split ":" (or (dotenv/env :neil-url) "localhost:6660")))
+  (def [h p] (string/split ":" (or (os/getenv "NEIL_URL") "localhost:6660")))
   (default host h)
   (default port p)
 
