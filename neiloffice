@@ -5,6 +5,7 @@
 (import mansion/utils)
 (import dotenv)
 
+(import neil/psk :prefix "")
 (import neil/hydrpc :as hr)
 
 (defn start-reception
@@ -13,14 +14,17 @@
 
 (defn server
   "Starts RPC server"
-  [reception &opt host port psk]
+  [reception &opt host port]
   (def [h p] (string/split ":" (or (dotenv/env :neil-url) "localhost:6660")))
   (default host h)
   (default port p)
-  (default psk (dotenv/env :neil-psk))
+
   (def visitor (:visit reception "neil"))
+
   (defn save [what] (:save visitor "scores" what))
+
   (defn retrieve [which] (:retrieve visitor "scores" which))
+
   (defn load [id] (:load visitor "scores" id))
 
   (defn stamp [&opt now]

@@ -22,9 +22,6 @@
   (import jhydro :as jh)
   (import mansion/buffet)
 
-  (phony "genpsk" []
-         (with-dyns [:out (file/open ".env" :a)]
-           (print "NEIL_PSK=" (jh/random/buf 32))))
   (phony "createdb" []
          (buffet/create "scores" @{:to-index [:type :abbrev :name :client :project :state]})
          (print "Scores created")))

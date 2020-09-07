@@ -1,3 +1,4 @@
+(import ./psk :prefix "")
 (import ./hydrpc :as hr)
 (import jff)
 (import dotenv)
@@ -32,12 +33,11 @@
   (keyword (string what "/" cmd)))
 
 # telling
-(defn- init [&opt hostname port name psk]
+(defn init [&opt hostname port name]
   (def [h p] (string/split ":" (or (dotenv/env :neil-url) "localhost:6660")))
   (default hostname h)
   (default port p)
   (default name "neil-tell")
-  (default psk (dotenv/env :neil-psk))
   (hr/client hostname port name psk))
 
 (defmacro tell
