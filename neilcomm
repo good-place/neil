@@ -8,7 +8,7 @@
   (var cmds [])
   (forever
     (unless cmd
-      (set cmds (if (tell (running))
+      (set cmds (if (running)
                   ["so - stop-task"
                    "ss - stop-and-start"
                    "ar - add-task-running"

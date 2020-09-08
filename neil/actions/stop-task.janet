@@ -3,7 +3,6 @@
 (defn main
   "Program main entry"
   [_]
-  (tell
-    (if (running)
-      (stop (running))
-      (error "You are not running any task"))))
+  (if (running)
+    (stop)
+    (error "You are not running any task")))

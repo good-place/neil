@@ -69,7 +69,7 @@
         (def send (make-send stream (encode msg-id session-pair)))
         (send keys-msg)
         (while (def [ok msg] (protect (recv)))
-          (unless ok (break))
+          (unless (and ok msg) (break))
           (++ msg-id)
           (try
             (let [[fnname args] msg
@@ -77,9 +77,7 @@
               (if-not f
                 (error (string "no function " fnname " supported")))
               (def result (f functions ;args))
-              (when (functions :aspect/before) (:aspect/before functions fnname args))
-              (send [true result])
-              (when (functions :aspect/after) (:aspect/after functions fnname args)))
+              (send [true result]))
             ([err]
               (send [false err]))))))))
 

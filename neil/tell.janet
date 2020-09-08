@@ -110,8 +110,8 @@
 
 (defn stop
   "Stops task and do commands if in note"
-  [running]
-  (print "Stopping task: " ((last running) :name))
+  []
+  (print "Stopping running ask")
   (def note (get-strip "note:"))
   (tell
     (:task/stop neil note)

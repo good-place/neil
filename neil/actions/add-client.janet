@@ -6,8 +6,7 @@
   (def name (get-strip "name:"))
   (def abbrev (get-strip "abbrev:"))
   (def note (get-strip "note:"))
-  (tell
-    (print "Client created with id:"
-           (add :client {:name name
-                         :abbrev abbrev
-                         :note note}))))
+  (print "Client created with id:"
+         (add :client {:name name
+                       :abbrev abbrev
+                       :note note})))
