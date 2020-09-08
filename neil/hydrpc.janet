@@ -55,7 +55,7 @@
     (tracev packet1)
     (def packet2 @"")
     (def state (jh/kx/xx2 packet2 packet1 psk pk sk))
-    (tracev packet1)
+    (tracev packet2)
     (hsend packet2)
     (def packet3 (hrecv))
     (tracev packet3)
