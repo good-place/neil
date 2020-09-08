@@ -56,6 +56,7 @@
     (def state (jh/kx/xx2 packet2 packet1 psk pk sk))
     (hsend packet2)
     (def packet3 (hrecv))
+    (tracev packet3)
     (jh/kx/xx4 state packet3 psk))
 
   (net/server
