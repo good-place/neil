@@ -77,8 +77,8 @@
   [t]
   (def [_ {:name n :project pid :work-intervals iw :state s}] t)
   (def {:name p} (tell (:by-id neil pid)))
-  (def dur (and iw (reduce (fn [r i] (+ r (- (or (i :end) (os/time))
-                                             (i :start)))) 0 iw)))
+  (def dur
+    (and iw (reduce (fn [r i] (+ r (- (or (i :end) (os/time)) (i :start)))) 0 iw)))
   (defn color [state]
     (case state
       "completed" "\e[35m"
