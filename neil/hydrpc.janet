@@ -52,13 +52,10 @@
     (def hrecv (make-recv stream string))
     (def hsend (make-send stream string))
     (def packet1 (hrecv))
-    (tracev packet1)
     (def packet2 @"")
     (def state (jh/kx/xx2 packet2 packet1 psk pk sk))
-    (tracev packet2)
     (hsend packet2)
     (def packet3 (hrecv))
-    (tracev packet3)
     (jh/kx/xx4 state packet3 psk))
 
   (net/server
@@ -98,13 +95,10 @@
     (def hsend (make-send stream string))
     (def packet1 @"")
     (def state (jh/kx/xx1 packet1 psk))
-    (tracev packet1)
     (hsend packet1)
     (def packet2 (hrecv))
-    (tracev packet2)
     (def packet3 @"")
     (set session-pair (jh/kx/xx3 state packet3 packet2 psk pk sk))
-    (tracev packet3)
     (hsend packet3))
 
   (handshake stream)
