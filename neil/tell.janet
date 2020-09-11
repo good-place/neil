@@ -74,9 +74,9 @@
 
 (defn print-task
   "Nice prints task"
-  [t]
-  (def [_ {:name n :project pid :work-intervals iw :state s}] t)
-  (def {:name p} (tell (:by-id neil pid)))
+  [task &opt project]
+  (def [_ {:name n :project pid :work-intervals iw :state s}] task)
+  (default project ((tell (:by-id neil pid)) :name))
   (def dur
     (and iw (reduce (fn [r i] (+ r (- (or (i :end) (os/time)) (i :start)))) 0 iw)))
   (defn color [state]
@@ -84,7 +84,7 @@
       "completed" "\e[35m"
       "canceled" "\e[34m"
       "\e[0m"))
-  (print "# \e[36m" p (color s) " - " n
+  (print "# \e[36m" project (color s) " - " n
          " \e[36m "
          (if iw
            (string (length iw) "x T" (durf dur))
