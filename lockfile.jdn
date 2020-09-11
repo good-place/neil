@@ -1,0 +1,9 @@
+@[{:sha "30acacff4f3b1466d92440264f93dbdd2e8ab5ed" :repo "https://github.com/janet-lang/argparse.git"}
+  {:sha "8a66ac6453a11f76dfba972bd78c27a5175023d2" :repo "https://github.com/bakpakin/janet-miniz.git"}
+  {:sha "d801a6538537023169663b7405acd321b3f32b56" :repo "https://github.com/sepisoad/jtbox"}
+  {:sha "2e227d4ec8492ee3b51fa7c591e83f126e9e1ad8" :repo "https://github.com/janet-lang/spork.git"}
+  {:sha "a85ede89ec256c61eb71523619d7a96bbfed116c" :repo "https://github.com/janet-lang/jhydro.git"}
+  {:sha "a676f0522baf39363d53c82de34c97d2444707d6" :repo "https://github.com/pepe/tahani"}
+  {:sha "728e95d255898b91ba0ca59fedb1ca605fd63bcb" :repo "https://github.com/crocket/janet-utf8.git"}
+  {:sha "04207f01f69c2dd00cf32116ce18dd472d12d621" :repo "https://github.com/pepe/jff.git"}
+  {:sha "e01e75d8be7394033f453d5d9ebd15e45795e1d3" :repo "https://github.com/good-place/mansion.git"}]
