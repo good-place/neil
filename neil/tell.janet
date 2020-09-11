@@ -18,7 +18,7 @@
 
   (if time?
     (string/format "%i:%s:%s" h (pad (inc u)) (pad (inc s)))
-    (string/format "%i-%i-%i %i:%s:%s" y (inc m) (inc d) h (pad (inc u)) (pad (inc s)))))
+    (string/format "%i-%s-%s %i:%s:%s" y (pad (inc m)) (pad (inc d)) h (pad (inc u)) (pad (inc s)))))
 
 (defn durf
   "Format duration in seconds to mm:ss. Returns string"
@@ -90,6 +90,33 @@
            (string (length iw) "x T" (durf dur))
            "not yet")
          "\e[0m"))
+
+(defn overview-task
+  "Prints task overview with work intervals"
+  [task &opt project]
+  (def [_ {:name n :project pid :work-intervals iw :state s}] task)
+  (default project ((tell (:by-id neil pid)) :name))
+  (def dur
+    (and iw (reduce (fn [r i] (+ r (- (or (i :end) (os/time)) (i :start)))) 0 iw)))
+  (defn color [state]
+    (case state
+      "completed" "\e[35m"
+      "canceled" "\e[34m"
+      "\e[0m"))
+  (print "# \e[36m" project (color s) " - " n
+         " \e[36m "
+         (if iw
+           (string (length iw) "x T" (durf dur))
+           "not yet")
+         "\e[0m")
+  (if iw
+    (each {:start s :end e :note t} iw
+      (default e (os/time))
+      (print "  " (datef (os/date s true))
+             " - " (datef (os/date e true) true)
+             " dur: " (durf (- e s))
+             " note: " (or t "still running")))
+    (print "Not worked yet")))
 
 
 (defn sort-tasks
