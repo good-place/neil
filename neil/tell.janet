@@ -47,6 +47,22 @@
 
 (defn running [] (tell (:task/running neil)))
 
+(defn by-state
+  "Returns tasks by state"
+  [state]
+  (tell (:task/by-state neil state)))
+
+(def memo @{})
+
+(defn by-id
+  "Find by id with memoization"
+  [id]
+  (if-let [e (memo id)]
+    e
+    (let [e (tell (:by-id neil id))]
+      (put memo id e)
+      e)))
+
 (defn list
   "Lists resource what"
   [what]
@@ -54,7 +70,11 @@
 
 (defn add
   "Adds data to resource what"
-  [what data] (tell ((kw-suf what :add) neil data)))
+  [what data]
+  (eachp [k v] data
+    (unless (and (string? v) (not (empty? v)))
+      (error (string "Key " k " must be non empty string. Was " v))))
+  (tell ((kw-suf what :add) neil data)))
 
 (defn nest-list
   "Lists what nested under parent. Parent must be tuple with the id and name and of the parent"
@@ -72,19 +92,20 @@
        matcher
        transformer))
 
+(defn state-color [state]
+  (case state
+    "completed" "\e[35m"
+    "canceled" "\e[34m"
+    "\e[0m"))
+
 (defn print-task
   "Nice prints task"
   [task &opt project]
   (def [_ {:name n :project pid :work-intervals iw :state s}] task)
-  (default project ((tell (:by-id neil pid)) :name))
+  (default project ((by-id pid) :name))
   (def dur
     (and iw (reduce (fn [r i] (+ r (- (or (i :end) (os/time)) (i :start)))) 0 iw)))
-  (defn color [state]
-    (case state
-      "completed" "\e[35m"
-      "canceled" "\e[34m"
-      "\e[0m"))
-  (print "# \e[36m" project (color s) " - " n
+  (print "# \e[36m" project (state-color s) " - " n
          " \e[36m "
          (if iw
            (string (length iw) "x T" (durf dur))
@@ -94,22 +115,8 @@
 (defn overview-task
   "Prints task overview with work intervals"
   [task &opt project]
-  (def [_ {:name n :project pid :work-intervals iw :state s}] task)
-  (default project ((tell (:by-id neil pid)) :name))
-  (def dur
-    (and iw (reduce (fn [r i] (+ r (- (or (i :end) (os/time)) (i :start)))) 0 iw)))
-  (defn color [state]
-    (case state
-      "completed" "\e[35m"
-      "canceled" "\e[34m"
-      "\e[0m"))
-  (print "# \e[36m" project (color s) " - " n
-         " \e[36m "
-         (if iw
-           (string (length iw) "x T" (durf dur))
-           "not yet")
-         "\e[0m")
-  (if iw
+  (print-task task project)
+  (if-let [iw (get-in task [1 :work-intervals])]
     (each {:start s :end e :note t} iw
       (default e (os/time))
       (print "  " (datef (os/date s true))
@@ -141,10 +148,11 @@
   (print "Stopping running ask")
   (def note (get-strip "note:"))
   (tell
-    (:task/stop neil note)
+    (def r (first (running)))
     (when (string/has-suffix? "done" note)
       (print "Marking task as complete")
-      (:task/complete neil (first running)))))
+      (:task/complete neil r))
+    (:task/stop neil note)))
 
 (defn last-running
   "Returns the last ran task"
@@ -153,16 +161,6 @@
        (filter (fn [t] (get-in t [1 :work-intervals])))
        (sort-by |((last (get-in $ [1 :work-intervals])) :end))
        last))
-
-(defn by-state
-  "Returns tasks by state"
-  [state]
-  (tell (:task/by-state neil "active")))
-
-(defn by-id
-  "Find by id"
-  [id]
-  (tell (:by-id neil id)))
 
 (defn start
   "Starts the task"
@@ -177,5 +175,4 @@
 (defn cancel
   "Cancel task"
   [id]
-
   (tell (:task/cancel neil id)))
