@@ -80,13 +80,13 @@
      :task/complete (fn [_ id]
                       (def nt
                         (-> id load
-                            (merge {:state "completed"})
+                            (merge (stamp) {:state "completed"})
                             freeze))
                       (save [id nt]))
      :task/cancel (fn [_ id]
                     (def nt
                       (-> id load
-                          (merge {:state "canceled"})
+                          (merge (stamp) {:state "canceled"})
                           freeze))
                     (save [id nt]))})
 
