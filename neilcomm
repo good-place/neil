@@ -24,6 +24,12 @@
                    "lc - list-tasks-by-client"
                    "lp - list-tasks-by-project"
                    "ls - list-tasks-by-state"
+                   "oa - overview-all-tasks"
+                   "oc - overview-tasks-by-client"
+                   "op - overview-tasks-by-project"
+                   "os - overview-tasks-by-state"
+                   "tc - todo-by-client"
+                   "tp - todo-by-project"
                    "ar - add-project-to-client"
                    "ac - add-client"]))
       (set cmd
