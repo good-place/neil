@@ -148,7 +148,7 @@
   (print "Stopping running ask")
   (def note (get-strip "note:"))
   (tell
-    (def r (first (running)))
+    (def [r _] (running))
     (if (string/has-suffix? "done" note)
       (do
         (print "Marking task as complete")
