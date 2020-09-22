@@ -16,10 +16,13 @@
                    "ap - add-task-to-project"]
                   ["sa - start-task"
                    "co - continue-last"
+                   "tc - todo-by-client"
+                   "tp - todo-by-project"
                    "ct - complete-task"
                    "nt - cancel-task"
                    "as - add-and-start"
                    "ap - add-task-to-project"
+                   "ll - list-projects"
                    "la - list-all-tasks"
                    "lc - list-tasks-by-client"
                    "lp - list-tasks-by-project"
@@ -28,8 +31,6 @@
                    "oc - overview-tasks-by-client"
                    "op - overview-tasks-by-project"
                    "os - overview-tasks-by-state"
-                   "tc - todo-by-client"
-                   "tp - todo-by-project"
                    "ar - add-project-to-client"
                    "ac - add-client"]))
       (set cmd
