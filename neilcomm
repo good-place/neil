@@ -3,8 +3,8 @@
 
 (defn main
   "Program main entry"
-  [_]
-  (var cmd nil)
+  [_ &opt c]
+  (var cmd c)
   (var cmds [])
   (forever
     (unless cmd
