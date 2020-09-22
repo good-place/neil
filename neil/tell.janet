@@ -149,10 +149,11 @@
   (def note (get-strip "note:"))
   (tell
     (def r (first (running)))
-    (when (string/has-suffix? "done" note)
-      (print "Marking task as complete")
-      (:task/complete neil r))
-    (:task/stop neil note)))
+    (if (string/has-suffix? "done" note)
+      (do
+        (print "Marking task as complete")
+        (:task/complete neil r))
+      (:task/stop neil note))))
 
 (defn last-running
   "Returns the last ran task"
