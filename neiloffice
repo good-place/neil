@@ -7,9 +7,11 @@
 (import neil/psk :prefix "")
 (import neil/hydrpc :as hr)
 
+(def buffet-name "scores")
+
 (defn start-reception
-  [name]
-  (:run (reception/open [name])))
+  []
+  (:run (reception/open [buffet-name])))
 
 (defn server
   "Starts RPC server"
@@ -20,11 +22,11 @@
 
   (def visitor (:visit reception "neil"))
 
-  (defn save [what] (:save visitor "scores" what))
+  (defn save [what] (:save visitor buffet-name what))
 
-  (defn retrieve [which] (:retrieve visitor "scores" which))
+  (defn retrieve [which] (:retrieve visitor buffet-name which))
 
-  (defn load [id] (:load visitor "scores" id))
+  (defn load [id] (:load visitor buffet-name id))
 
   (defn stamp [&opt now]
     (default now (os/time))
@@ -46,7 +48,7 @@
     {:client/add (fn [_ client] (-> (populate :client client) freeze save))
      :client/list (fn [_] (first-retrieved {:type "client"}))
      :client/projects (fn [_ client] (first-retrieved {:client client}))
-     :by-id (fn [_ id] (:load visitor "scores" id))
+     :by-id (fn [_ id] (load id))
      :project/add (fn [_ project] (-> (populate :project project) freeze save))
      :project/list (fn [_] (first-retrieved {:type "project"}))
      :project/tasks (fn [_ project] (first-retrieved {:project project}))
@@ -94,6 +96,4 @@
   (hr/server funcs host port psk))
 
 (defn main [_]
-  (->> "scores"
-       start-reception
-       server))
+  (server (start-reception)))
