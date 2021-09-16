@@ -1,3 +1,7 @@
+# This repository is deprecated
+
+Please use latest version from [SourceHut](https://git.sr.ht/~pepe/neil)
+
 # Neil - your life score accountant manager
 
 This is my attempt to create simple cli application for my time tracker needs.
